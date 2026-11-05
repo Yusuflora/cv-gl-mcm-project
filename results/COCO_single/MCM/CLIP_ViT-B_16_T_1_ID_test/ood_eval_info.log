@@ -1,0 +1,13 @@
+2026-11-05 11:12:22,067 : #########test############
+2026-11-05 11:16:02,404 : Evaluting OOD dataset ood_voc
+2026-11-05 11:19:09,937 : in scores: DescribeResult(nobs=np.int64(5000), minmax=(np.float32(-0.02003999), np.float32(-0.016995693)), mean=np.float32(-0.018006181), variance=np.float32(2.355117e-07), skewness=np.float32(-0.46496865), kurtosis=np.float32(0.116446495))
+2026-11-05 11:19:09,938 : out scores: DescribeResult(nobs=np.int64(4000), minmax=(np.float32(-0.018993838), np.float32(-0.017001577)), mean=np.float32(-0.01745759), variance=np.float32(4.7179977e-08), skewness=np.float32(-1.0678692), kurtosis=np.float32(2.575872))
+2026-11-05 11:19:11,506 : 				MCM
+2026-11-05 11:19:11,506 :   FPR95 AUROC AUPR
+2026-11-05 11:19:11,507 : & 77.48 & 84.42 & 89.53
+2026-11-05 11:19:11,507 : 
+
+Mean Test Results
+2026-11-05 11:19:11,507 : 				MCM
+2026-11-05 11:19:11,507 :   FPR95 AUROC AUPR
+2026-11-05 11:19:11,507 : & 77.48 & 84.42 & 89.53
