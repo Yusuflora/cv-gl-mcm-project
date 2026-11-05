@@ -46,8 +46,8 @@ def main():
     args = process_args()
     setup_seed(args.seed)
     log = setup_log(args)
-    assert torch.cuda.is_available()
-    torch.cuda.set_device(args.gpu)
+    pass  # assert torch.cuda.is_available()
+    pass  # torch.cuda.set_device(args.gpu)
 
     net, preprocess = set_model_clip(args)
     net.eval()

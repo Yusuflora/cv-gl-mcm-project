@@ -29,3 +29,7 @@ datasets
 datasets_inst
 results/
 clip/__pycache__/*
+
+.venv/
+datasets/
+results/

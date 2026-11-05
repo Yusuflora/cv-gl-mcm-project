@@ -103,8 +103,8 @@ def get_ood_scores_clip(args, net, loader, test_labels):
     with torch.no_grad():
         for batch_idx, (images, labels, *id_flag) in enumerate(tqdm_object):
             bz = images.size(0)
-            labels = labels.long().cuda()
-            images = images.cuda()
+            labels = labels.long().to("mps")
+            images = images.to("mps")
             global_features, local_features = net.encode_image(images)  # .float()
 
             global_features = global_features.float()
@@ -114,7 +114,7 @@ def get_ood_scores_clip(args, net, loader, test_labels):
             local_features /= local_features.norm(dim=-1, keepdim=True)
 
             text_inputs = tokenizer([f"a photo of a {c}" for c in test_labels])
-            text_features = net.encode_text(text_inputs.cuda()).float()
+            text_features = net.encode_text(text_inputs.to("mps")).float()
             text_features /= text_features.norm(dim=-1, keepdim=True)   
             output_global = global_features @ text_features.T
             output_local = local_features @ text_features.T
