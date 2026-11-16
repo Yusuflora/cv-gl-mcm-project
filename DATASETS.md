@@ -48,6 +48,6 @@ datasets/
 - ImageNet sınıf adları `data/ImageNet/imagenet_class_clean.npy` içinde depoda mevcuttur.
 
 ## Sorun çıkarsa
-- Tablo/grafikleri veri olmadan yeniden üretmek için: `python make_tables.py && python make_figures.py` (`results/` ve `results_raw/` yeterli).
+- Tablo/grafikleri veri olmadan yeniden üretmek için: `python make_figures.py && python make_tables.py` (`results/` ve `results_raw/` yeterli).
 - Çok yavaş indirme: `curl -C -` (kaldığı yerden devam) kullandık.
 - Disk (bizim makinede ölçülen): açılmış veri setleri ~17 GB, indirilen arşivler (`downloads`) ~12 GB, Hugging Face parquet dosyaları (`hf_imagenet`) ~6.3 GB. Dönüştürme bittikten sonra `downloads` ve `hf_imagenet` silinebilir.

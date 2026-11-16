@@ -11,7 +11,7 @@ Bu depo, COME421/1 (Introduction to Computer Vision) vize ödevinin deney kısm�
 6. `DATASETS.md`: veri setleri (sadece deneyleri sıfırdan tekrarlayacaksanız).
 
 ## Sık işler
-- Tablo ve şekilleri yeniden üret (veri seti gerekmez): `pip install numpy matplotlib` sonra `python make_tables.py` ve `python make_figures.py`
+- Tablo ve şekilleri yeniden üret (veri seti gerekmez): `pip install numpy matplotlib` sonra sırayla `python make_figures.py` ve `python make_tables.py` (sıra önemli: λ tablosunu önce şekil betiği üretir)
 - Metrik doğrulaması: `python make_figures.py --check`
 - Nihai sonuçlar: `results/<ID>/<Yöntem>/..._final/` ve `results_raw/`
 

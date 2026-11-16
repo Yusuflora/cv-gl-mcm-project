@@ -34,7 +34,7 @@ Renk kuralı (tüm şekillerde aynı): **MCM mavi, L-MCM turuncu, GL-MCM yeşil.
 
 `results/<ID>/` içindeki koşu klasör adları: `CLIP_ViT-B_16_T_<τ>_ID_<etiket>`. Etiketler: `final` (nihai koşu), `m1test` (M1'de aynı test koşusu; M5 ile aynı), `test` (ilk deneme). **Nihai sayılar yalnızca `final` etiketlidir.** Baseline klasörleri: `results/ImageNet/{MSP,Energy,ODIN}/`; `ViT-B_16_in21k_ft_in1k_*` = timm modeli (ana sonuç), `ViT-B_16_supervised_*` = torchvision modeli (checkpoint kıyası için ek bulgu).
 
-Yeniden üretme: `python make_tables.py` ve `python make_figures.py` (veri seti gerekmez). `python make_figures.py --check`: kendi metrik hesabının resmi CSV'lerle uyuştuğunu doğrular (en büyük fark 0.008 puan).
+Yeniden üretme (sırayla): `python make_figures.py` sonra `python make_tables.py` (veri seti gerekmez; λ tablosunu önce şekil betiği üretir). `python make_figures.py --check`: kendi metrik hesabının resmi CSV'lerle uyuştuğunu doğrular (en büyük fark 0.008 puan).
 
 ## B. Şekil rehberi
 
