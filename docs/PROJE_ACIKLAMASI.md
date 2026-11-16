@@ -91,7 +91,7 @@ Tüm metriklerde **ID = pozitif sınıf**, yüksek skor = daha çok ID.
 
 **Adım 7 - Tek geçişli değerlendirme scripti (`eval_all_scores.py`).** Yazarların kodu her skor için (MCM, L-MCM, GL-MCM) CLIP'i her görüntüde yeniden çalıştırıyor. Üç skor aslında aynı CLIP çıktısının farklı birleşimi olduğundan, biz CLIP'i **bir kez** çalıştırıp ham global ve yerel "max softmax" değerlerini `results_raw/` içine kaydettik. Böylece üç skor, iki sıcaklık (τ=1, 0.01) ve her λ değeri hiç yeni hesaplama gerektirmeden bu ham değerlerden çıkıyor (3x hızlanma + bedava ablation).
 
-**Adım 8 - Bellek sorunu ve çözümü.** M1 (8 GB) ilk büyük koşuda dondu. Çözüm: batch 32, 2 veri yükleme işçisi, her adımdan sonra MPS bellek temizliği (`torch.mps.empty_cache()`).
+**Adım 8 - Bellek önlemleri.** M1'in belleği 8 GB olduğu için büyük koşulara bellek önlemleriyle başlandı (kayıtlarda bir donma olayı yazılı değil, önlem amaçlıdır): batch 32, 2 veri yükleme işçisi, her adımdan sonra MPS bellek temizliği (`torch.mps.empty_cache()`).
 
 **Adım 9 - CLIP koşuları (M1).** Hepsi τ ∈ {1, 0.01}, sonuçlar her OOD setinden sonra yazılır (kesilse de kayıp olmaz):
 - COCO_single (ID 5000; her OOD seti 5000 rastgele görüntü, `ood_voc` 4000): iNaturalist 15:53 dk, SUN 14:15, Texture 8:33, IN22k 9:38. 
@@ -109,7 +109,7 @@ Tüm metriklerde **ID = pozitif sınıf**, yüksek skor = daha çok ID.
 
 **Karşılaşılan sorunlar ve çözümleri (raporda "zorluklar" bölümüne uygun):**
 1. CUDA yerine MPS: kod yaması.
-2. 8 GB RAM'de donma: küçük batch, az işçi, bellek temizliği.
+2. 8 GB RAM sınırı: küçük batch, az veri yükleme işçisi, her batch sonunda MPS bellek temizliği.
 3. Bazı veri sunucuları çok yavaş: kesintiye dayanıklı (`curl -C -`) arka plan indirmeleri.
 4. Aynı rastgele alt kümeyi korumak: `--burn` bayrağı.
 5. Baseline modeli seçimi: torchvision → timm geçişi (yukarıda).

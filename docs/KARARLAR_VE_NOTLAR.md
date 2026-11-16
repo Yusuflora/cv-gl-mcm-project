@@ -20,7 +20,7 @@ Bu dosya, proje sırasında verilen her karar ve her önemli ayrıntı için ça
 
 ## 4. Sonuçların makaleyle uyumu
 - COCO_single, VOC_single ve ImageNet-1K'da MCM / L-MCM / GL-MCM ortalamaları makaleyle çok yakın (ayrıntı docs/RESULT_TABLES.md).
-- VOC'ta ID seti 1000 görüntü olduğu için makaleden ~2 puana kadar sapma var (örneklem küçük, FPR95 oynak).
+- VOC'ta ID seti 1000 görüntü olduğu için makaleden ortalamada ~4 puana kadar (MCM FPR95 42.66 vs 38.88) sapma var (örneklem küçük, FPR95 oynak).
 
 ## 5. Deney kurulumu ayrıntıları
 - Model: CLIP ViT-B/16. Skorlar: MCM (global, max softmax), L-MCM (yerel, 14x14 yama üzerinde max), GL-MCM = MCM + lambda * L-MCM. lambda=1.0 (COCO, VOC), 0.5 (ImageNet). tau=1 (ana), tau=0.01 (ablation). ID = pozitif sınıf, yüksek skor = daha ID.
