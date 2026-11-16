@@ -116,7 +116,7 @@ Her kayıt: dosya adı → ne gösterir → nasıl okunur → öne çıkacak rak
 | Makaleyle kıyas | fig07 + §6.1-6.3 (makale satırlı tablolar) |
 | Baseline'lar | fig10, fig11, §6.6 |
 | Kodun her bölümünün açıklaması | PROJE_ACIKLAMASI §4 |
-| Çıktının her bölümünün açıklaması | bu rehber (B bölümü) + `results/` CSV'leri + terminal çıktıları (§C aşağıda) |
+| Çıktının her bölümünün açıklaması | bu rehber (B bölümü) + `results/` CSV'leri + terminal çıktıları (D bölümü aşağıda) |
 
 ## D. Terminal çıktısı nasıl okunur (raporda "çıktının her bölümü" için)
 `eval_all_scores.py` çalışırken: ilerleme çubuğu (`tqdm`: yüzde, işlenen batch/toplam batch, saniye/batch), `=== OOD set: <ad>` (hangi OOD kümesi taranıyor), `[cache] <yol>` (bu parça daha önce hesaplanmış, diskten okundu), `[burn] ...` (rastgele alt küme çekimi ilerletildi, görüntü işlenmedi), her OOD seti bittikten sonra `--- T=<τ>, lambda=<λ>: results so far (<n> OOD sets: ...)` ve ardından sonuçların yazıldığı klasörler. CSV'nin sütunları: ilk sütun OOD seti adı, sonra FPR95, AUROC, AUPR (yüzde); son satır AVG.

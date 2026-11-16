@@ -70,17 +70,17 @@ Tüm metriklerde **ID = pozitif sınıf**, yüksek skor = daha çok ID.
 
 ## 3. Yaptığımız her adım (sırayla)
 
-> Tarihler 2026 Kasım'dandır (git geçmişinden: ilk fork 5 Kasım, son push 12 Kasım; sonrası henüz push edilmedi). Hesaplamalar Apple Silicon MacBook'larda (MPS) yapıldı.
+> Tarihler 2026 Kasım'dandır (git geçmişinden: ilk fork 5 Kasım, ilk ilerleme raporu 5 Kasım, güncelleme 12 Kasım; nihai sonuçlar, şekiller ve açıklama dosyaları 17 Kasım'da GitHub'a gönderildi). Hesaplamalar Apple Silicon MacBook'larda (MPS) yapıldı.
 
 **Adım 1 - Makale.** Ödevde kullanılan IJCV makalesi: Miyai, Yu, Irie, Aizawa, "GL-MCM: Global and Local Maximum Concept Matching for Zero-Shot Out-of-Distribution Detection", IJCV 2025 (arXiv 2304.04521). Yazarların kodu GitHub'da `AtsuMiyai/GL-MCM` (kod, MCM projesinin kodunu temel alıyor).
 
-**Adım 2 - Depo ve ortam.** Yazarların kodu bizim depomuza (`Yusuflora/cv-gl-mcm-project`) fork edildi. Yazarların kodu NVIDIA GPU (CUDA) için yazılmış; biz Mac'te çalışabilmesi için `cuda` yerine Apple **MPS** kullanacak şekilde yamaladık (`eval_ood_detection.py`: CUDA kontrolü kaldırıldı; `utils/train_eval_util.py` ve `utils/detection_util.py`: `.cuda()` yerine `.to("mps")`). Ortam `uv` ile Python 3.12 olarak kuruldu (yazarlar Python 3.8 + PyTorch 1.10 ve A100/V100 GPU ile çalışmış; biz daha yeni sürümlerde çalıştırdık, sonuçlar yine makaleyle uyuştu). Orijinal kodda zaten olan `--lambda_local` (λ, varsayılan 1.0) bayrağına ek olarak tek bir ekleme yaptık: `--out_list` (hangi OOD setlerinin koşacağını seçmek). Ayrıca `.gitignore` eklendi (`.venv/`, `datasets/`, `results/`) ve `utils/plot_util.py` içinde her grafikten sonra `plt.close('all')` çağrısı eklendi (bellek sızıntısını önlemek için).
+**Adım 2 - Depo ve ortam.** Yazarların kodu bizim depomuza (`Yusuflora/cv-gl-mcm-project`) fork edildi. Yazarların kodu NVIDIA GPU (CUDA) için yazılmış; biz Mac'te çalışabilmesi için `cuda` yerine Apple **MPS** kullanacak şekilde yamaladık (`eval_ood_detection.py`: CUDA kontrolü kaldırıldı; `utils/train_eval_util.py` ve `utils/detection_util.py`: `.cuda()` yerine `.to("mps")`). Ortam `uv` ile Python 3.12 olarak kuruldu (yazarlar Python 3.8 + PyTorch 1.10 ve A100/V100 GPU ile çalışmış; biz daha yeni sürümlerde çalıştırdık, sonuçlar yine makaleyle uyuştu). Orijinal kodda zaten olan `--lambda_local` (λ, varsayılan 1.0) bayrağına ek olarak tek bir ekleme yaptık: `--out_list` (hangi OOD setlerinin koşacağını seçmek). `.gitignore`'a `.venv/` ve `datasets/` eklendi (ilk denemede `results/` de ignore'daydı; nihai sonuçlar depoda tutulsun diye 17 Kasım'da çıkarıldı). Ayrıca `utils/plot_util.py` içinde her grafikten sonra `plt.close('all')` çağrısı eklendi (bellek sızıntısını önlemek için).
 
 **Adım 3 - İlk deneme koşuları (M5 bilgisayar, 5 Kasım).** COCO_single (ID) ve `ood_voc` (OOD) üzerinde MCM, L-MCM ve GL-MCM çalıştırıldı. τ=1 sonuçları makaleyle uyumluydu (ood_voc için FPR95/AUROC: MCM 77.48/84.42, L-MCM 72.10/84.21, GL-MCM 71.67/87.71; makale 77.62/84.43, 72.02/84.21, 71.62/87.72; ilk koşunun AUPR değerleri: 89.53, 87.43, 91.66). Aynı gün bir **ilerleme raporu** PDF'i (`results/GL-MCM_progress_report.pdf`, 5 sayfa) depoya eklendi; 12 Kasım'da "before/after" ve "bizim sonuç - makale" grafikleriyle güncellendi (`results/before_after_MCM_vs_GL-MCM.png`, `results/ours_vs_article.png`; commit bdb9564). Bu ilk dosyalar yalnızca COCO_single / `ood_voc` içindir; nihai sonuçlar aşağıdaki adımlarla üretildi.
 
 **Adım 4 - Hocanın geri bildirimi** (bölüm 1'deki dört madde): ranking quality'yi açıkla, makale tablosunu göster ve hangi yöntemleri uyguladığını belirt, deneysel sonuç tablosundaki yöntemleri uygula, 2 kavramı var/yok diye kıyasla ve bolca görsel ver.
 
-**Adım 5 - Makine değişikliği.** Çalışma M5 bilgisayardan M1 MacBook Air'e (8 GB RAM) taşındı. Depo yeniden klonlandı, ortam yeniden kuruldu. Doğrulama: M1'de aynı test koşusu (COCO → `ood_voc`, τ=1) M5 ile **birebir aynı** sonucu verdi.
+**Adım 5 - Makine değişikliği.** Çalışma M5 bilgisayardan M1 MacBook Air'e (8 GB RAM) taşındı. Doğrulama: M1'de aynı test koşusu (COCO → `ood_voc`, τ=1; sonuç klasörleri `..._ID_m1test`) M5'teki ilk koşuyla **birebir aynı** sonucu verdi.
 
 **Adım 6 - Veri setlerinin toplanması.** (ayrıntı: `DATASETS.md`)
 - Yazarların yayımladığı paket: COCO_single (ID, 5000 görüntü), COCO_multi (ID, 5000), VOC_single (ID, 1000), `OOD_COCO` (1000), `OOD_VOC` (4000).
@@ -105,7 +105,7 @@ Tüm metriklerde **ID = pozitif sınıf**, yüksek skor = daha çok ID.
 - Düzeltme: ImageNet-21k ön eğitimli, ImageNet-1K'da fine-tune edilmiş ViT-B/16 (`timm`: `vit_base_patch16_224.orig_in21k_ft_in1k`) kullanıldı. MSP ve Energy makaleye yaklaştı (bölüm 6).
 - Süre kısıtı nedeniyle alt kümeler: MSP ve Energy için ID 10.000 / her OOD seti 3.000; ODIN için ID 2.000 / her OOD seti 500.
 
-**Adım 11 - Tablolar ve grafikler.** `make_tables.py` ve `make_figures.py` ile tüm tablolar ve 13+ grafik üretildi. Grafik kodu, metrikleri ham skorlardan yeniden hesaplar ve resmi CSV'lerle uyuştuğunu (en fazla 0.008 puan fark) doğrular. `qualitative_examples.py` gerçek görüntülerden örnek ve yerel skor haritası figürleri üretir.
+**Adım 11 - Tablolar ve grafikler.** `make_tables.py` ve `make_figures.py` ile tüm tablolar ve 11 grafik dosyası grubu (fig01-fig11; toplam 18 PNG) üretildi; nitel örnekler (fig12-fig13) ayrıca `qualitative_examples.py` ile üretildi (toplam 20 PNG). Grafik kodu, metrikleri ham skorlardan yeniden hesaplar ve resmi CSV'lerle uyuştuğunu (en fazla 0.008 puan fark) doğrular. `qualitative_examples.py` gerçek görüntülerden örnek ve yerel skor haritası figürleri üretir.
 
 **Karşılaşılan sorunlar ve çözümleri (raporda "zorluklar" bölümüne uygun):**
 1. CUDA yerine MPS: kod yaması.
@@ -238,7 +238,7 @@ Set bazında istisnalar (rapor bunları gizlememeli): COCO Texture'da GL-MCM, MC
 | ImageNet-1K | 0.01 | 50.72 / 84.70 | 50.66 / 84.71 |
 | ImageNet-1K | 1.0 | 35.25 / 91.51 | 35.33 / 91.52 |
 
-Önemli: sıcaklık kıyası makalenin kendi ablation'ıdır (Tablo 3); makale yalnızca GL-MCM için verir, MCM ve L-MCM için τ=0.01 sonuçları bizim ek ölçümümüzdür. Makalenin yorumu: τ ile softmax ölçekleme ID/OOD ayrımı için önemlidir; τ=1.0 üç ID veri setinde de daha iyi. (Makale Tablo 3 değerleri `make_tables.py` içinde henüz yok; rapora tablo olarak elle eklenebilir. Yukarıdaki sayılar makale HTML'sinden alındı, rapor yazarken orijinal PDF'den bir kez daha doğrulayın.)
+Önemli: sıcaklık kıyası makalenin kendi ablation'ıdır (Tablo 3); makale yalnızca GL-MCM için verir, MCM ve L-MCM için τ=0.01 sonuçları bizim ek ölçümümüzdür. Makalenin yorumu: τ ile softmax ölçekleme ID/OOD ayrımı için önemlidir; τ=1.0 üç ID veri setinde de daha iyi. (Makale Tablo 3 değerleri `make_tables.py` içine `ART_TAU3` olarak eklendi ve `docs/RESULT_TABLES.md`'de de var. Makale sayıları arXiv HTML sürümünden alındı; rapor yazarken orijinal PDF'den bir kez daha doğrulayın.)
 
 τ=1 neredeyse her durumda daha iyi (tek istisna: COCO MCM'de FPR95 τ=0.01'de hafifçe iyi, 73.12 vs 73.80; AUROC yine τ=1'de daha iyi). Kayda değer: makale τ=1 kullanıyor; küçük τ softmax'ı keskinleştirip skoru 1'e doğru itiyor ve ID/OOD farkını eziyor. (Bu açıklama genel mantıktır; deneysel olarak ayrı doğrulanmadı.)
 
@@ -295,7 +295,7 @@ Baseline ayrıntıları (bölüm 3 adım 10 ve `docs/KARARLAR_VE_NOTLAR.md` 10-1
 
 ## 7. Uygulanan ve uygulanmayan yöntemler (özet)
 - **Uygulandı (kendi çalıştırdığımız sayılar):** MCM, L-MCM, GL-MCM (CLIP ViT-B/16; COCO_single, VOC_single, ImageNet-1K); MSP, Energy, ODIN (ImageNet-1K).
-- **Uygulanmadı (rapor "makaleden alındı, bizim uygulamamız değil" diye etiketlemeli):** ViM, KNN (ImageNet eğitim özellikleri gerekir), NPOS (eğitim gerekir), CoOp, LoCoOp ve bunların GL-MCM'li hâlleri (16-shot istem öğrenimi gerekir). Neden uygulanmadığı: ödev süresi ve donanım (8 GB RAM'li MacBook) bunlara yetmedi; ayrıca ödev vize kısmı, final ödevi aynı makalenin devamı.
+- **Uygulanmadı (rapor "makaleden alındı, bizim uygulamamız değil" diye etiketlemeli):** ViM, KNN (ImageNet eğitim özellikleri gerekir), NPOS (eğitim gerekir), CoOp, LoCoOp ve bunların GL-MCM'li hâlleri (16-shot istem öğrenimi gerekir). Neden uygulanmadığı: bu yöntemler eğitim (CoOp, LoCoOp, NPOS) veya ImageNet eğitim seti özellikleri (ViM, KNN) gerektirir ve vize süresi içinde yapılmadı; final ödevi aynı makalenin devamıdır.
 - **Makalenin tabloları (arXiv v4 HTML sürümünden kontrol edildi) ve bizim durumumuz:**
   - **Tablo 1 (ImageNet-1K ana sonuçlar):** tamamı yukarıdaki 6.6 tablosunda; 13 yöntemden 6'sı uygulandı (MSP, Energy, ODIN, MCM, L-MCM, GL-MCM), 7'si uygulanmadı (ViM, KNN, NPOS, CoOp_MCM, CoOp_GL-MCM, LoCoOp_MCM, LoCoOp_GL-MCM). MSP/Energy makalede "Ming ve ark. 2022'den", ODIN/ViM/KNN/NPOS "Tao ve ark. 2023'ten" alınmış.
   - **Tablo 2 (MS-COCO ve Pascal-VOC):** yalnızca MCM, L-MCM, GL-MCM satırları var; hepsi uygulandı (COCO_single ve VOC_single).
@@ -338,7 +338,7 @@ Baseline ayrıntıları (bölüm 3 adım 10 ve `docs/KARARLAR_VE_NOTLAR.md` 10-1
 15. Ek: kod listesi, depo bağlantısı (GitHub).
 
 ### 9.2 Yazım kuralları (kullanıcı ile varılan kararlar)
-- Rapor kendi cümlelerimizle, doğal ve sade bir akademik dille yazılmalı; "yapay zekâ üretimi" gibi görünmemeli (kalıp cümleler, gereksiz abartı, aşırı madde işaretlendirme yok). Uzunluk dolgu cümleyle değil, kod ve çıktı açıklamaları, tablolar ve çok sayıda grafikle sağlanmalı.
+- Rapor ekibin kendi cümleleriyle, sade ve doğal bir akademik dille yazılmalı (kalıp cümle, gereksiz abartı ve aşırı madde işaretlendirme yok). Yapay zekâ kullanımı dersin kuralına uygun olmalı ve ekip her cümleyi anlayıp sahiplenmelidir. Uzunluk dolgu cümleyle değil, kod ve çıktı açıklamaları, tablolar ve çok sayıda grafikle sağlanmalı.
 - Rakamlar yalnızca bu pakette bulunanlardır (`docs/RESULT_TABLES.md`, `tables/`, `results/**.csv`). Yeni rakam uydurulmaz, yuvarlama değiştirilmez.
 - "Geliştirdik" DENMEZ. Doğrusu: "makalenin yöntemini uyguladık ve iki bileşenin (yerel özellik, sıcaklık) etkisini ablation olarak ölçtük."
 - Uygulanmayan yöntemler (ViM, KNN, NPOS, CoOp, LoCoOp) uygulanmış gibi yazılmaz; makaledeki değerler "makaleden alındı" diye etiketlenir.

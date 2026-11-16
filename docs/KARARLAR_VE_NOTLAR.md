@@ -41,9 +41,8 @@ Bu dosya, proje sırasında verilen her karar ve her önemli ayrıntı için ça
 - Kapak sayfası: grubun tüm üyelerinin ad, soyad, numarası (eksik üye = 0). Teslim: tek zip/rar, STIX linkinden, 19.11.2026 01:00 (18 Kasım gecesi) öncesi.
 - Kod ve sonuçlar da teslim edilmeli. 18 Kasım 14:00 çevrimiçi ders (Meet), devam zorunluluğu %70.
 
-## 8. Yapılacak son kontrol (UNUTMA)
-- Paketi arkadaşlara vermeden önce: bütün projeyi, kodu, sonuçları, bu notları ve sohbetin ham kaydını sanki projeyi biz yapmamışız gibi baştan sona incele. Açıklama metnini bu gözle yeniden yaz ve eleştir: eksik, yanlış, çelişen, atlanmış ayrıntı var mı? Kullanıcı özellikle uyardı: hiçbir bilgi atlanmayacak.
-- Kullanıcı kuralı: sohbet iki kez sıkıştırıldı; ayrıntı kaybı riski yüzünden her karar diske (bu dosya) yazılır.
+## 8. Son kontrol (17 Kasım'da YAPILDI)
+- Paket, sanki projeyi biz yapmamışız gibi baştan sona okundu; bayat cümleler, doğrulanamayan iddialar ve çelişkiler düzeltildi. Temiz bir kopyada tablo ve şekillerin yeniden üretildiği doğrulandı.
 
 ## 9. Küçük alt küme (ODIN) uyarısı, ayrıntı
 - Alt küme küçük olduğu için ODIN sonuçları daha oynak: AUROC için yaklaşık ±1 puan, FPR95 için yaklaşık ±2-3 puan sapma beklenir.
@@ -82,4 +81,4 @@ Bu dosya, proje sırasında verilen her karar ve her önemli ayrıntı için ça
   - ODIN: 34.60 / 91.99 / 97.42
 - Makale (Tablo 1, ImageNet ortalamaları): MSP 45.12 / 88.25, Energy 35.92 / 92.26, ODIN 47.75 / 88.80.
 - Gözlem: MSP ve Energy makaleye yakın. ODIN bizde makaleden belirgin iyi (34.60 vs 47.75 FPR95); bu fark alt küme gürültüsüyle (~2-3 puan) açıklanamayacak kadar büyük. Olası nedenler: makalenin dayandığı ODIN uygulamasının hiperparametreleri (sıcaklık, perturbation) ve checkpoint'i bilinmiyor (biz T=1000, eps=0.0014 kullandık). Sıralama da farklı: bizde ODIN, MSP'den iyi; makalede ODIN, MSP'den kötü. Raporda bu dürüstçe "makalenin ODIN ayarları belirtilmediği için birebir tutmadı" diye yazılmalı.
-- Tüm hesaplamalar 16 Kasım gece (~23:45) itibarıyla tamamlandı: sırada grafik, tablo ve paket hazırlığı var.
+- Tüm hesaplamalar 16 Kasım gece (~23:45) itibarıyla tamamlandı; grafik, tablo ve paket hazırlığı 17 Kasım'da bitti.
